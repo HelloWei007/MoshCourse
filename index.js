@@ -27,15 +27,15 @@ app.get('/api/courses/:id',(req,res)=>{
 //use postman and send /api/courses with body (json) _> "name" : x
 app.post('/api/courses',(req,res)=>{
 
-    const schema = {
-        name: Joi.string().min(3).required()
-    };
-    const result = Joi.validate(req.body, schema);
-    
-    if(result.error){
-        res.status(400).send(result.error.details[0].message);
+    const {
+        error
+    } = validateCourse(req.body);
+
+    if (error) {
+        res.status(400).send(error.details[0].message);
         return;
     }
+    
     console.log(req.body);    
     const course = {
         id: courses.length + 1,
@@ -44,6 +44,29 @@ app.post('/api/courses',(req,res)=>{
     courses.push(course);
     res.send(course);
 });
+
+app.put('/api/courses/:id',(req, res)=>{
+      const course = courses.find(c => c.id == parseInt(req.params.id));
+      if (!course) res.status(404).send('the course not found');
+    
+      const { error } = validateCourse(req.body);
+  
+      if (error) {
+          res.status(400).send(error.details[0].message);
+          return;
+      }
+      course.name = req.body.name;
+      res.send(course);
+
+});
+
+function validateCourse(course){
+     const schema = {
+         name: Joi.string().min(3).required()
+     };
+     return Joi.validate(course, schema);
+
+}
 
 
 const port = process.env.PORT ||3000;

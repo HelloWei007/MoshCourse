@@ -1,8 +1,29 @@
 const express = require('express');
 const app = express();
+const logger = (require('./logger'));
 const Joi = require('joi');
+const helmet = require('helmet');
+const morgan = require('morgan');
+
+console.log(`env: ${process.env.NODE_ENV}`);
+console.log(`env: ${app.get('env')}`);
+
 
 app.use(express.json());
+app.use(express.urlencoded( { extended : true})); //?KEY = VALUE
+app.use(express.static('public')); //REDIRECT
+app.use(helmet());
+
+if(app.get('env') === 'development'){
+    app.use(morgan('tiny')); //LOG ON TERMINAL *ONLY FOR DEV
+    console.log('morgan enable');
+    //on terminal change to production
+    //set NODE_ENV=production
+}
+
+
+app.use(logger.log);
+app.use(logger.aut);
 
 const courses = [
     {id: 1, name: 'course1'},
@@ -76,7 +97,6 @@ function validateCourse(course){
      };
      return Joi.validate(course, schema);
 }
-
 
 const port = process.env.PORT ||3000;
 

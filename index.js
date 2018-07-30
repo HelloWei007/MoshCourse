@@ -4,15 +4,24 @@ const logger = (require('./logger'));
 const Joi = require('joi');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const config = require('config');
 
 console.log(`env: ${process.env.NODE_ENV}`);
-console.log(`env: ${app.get('env')}`);
+//console.log(`env: ${app.get('env')}`);
+
 
 
 app.use(express.json());
 app.use(express.urlencoded( { extended : true})); //?KEY = VALUE
 app.use(express.static('public')); //REDIRECT
 app.use(helmet());
+
+//window set the env with  $env:NODE_ENV="development" 
+//if you are on powershell
+console.log('application name: ' + config.get('name'));
+console.log('mail server: ' + config.get('mail.host'));
+console.log('mail password: ' + config.get('mail.password'));
+
 
 if(app.get('env') === 'development'){
     app.use(morgan('tiny')); //LOG ON TERMINAL *ONLY FOR DEV

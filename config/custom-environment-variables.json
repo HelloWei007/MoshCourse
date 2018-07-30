@@ -1,0 +1,7 @@
+{
+    "mail": {
+        "password": "app_password",
+        "_comment": "this is custom enviorment variables use $env: app_password = 123",
+        "_comment1": "very important the file name"
+    }
+}

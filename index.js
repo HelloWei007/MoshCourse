@@ -5,11 +5,16 @@ const Joi = require('joi');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const config = require('config');
+/**************really usefull, have to use envionrment variables*/
+//const startupDebugger = require('debug')('app:startup');
+//const dbDebugger = require('debug')('app:db');
+
+/***templating engines : Pug,Mustache,EJS */
+app.set('view engine','pug'); /**no need requiere */
+app.set('views','./views'); //default
 
 console.log(`env: ${process.env.NODE_ENV}`);
 //console.log(`env: ${app.get('env')}`);
-
-
 
 app.use(express.json());
 app.use(express.urlencoded( { extended : true})); //?KEY = VALUE
@@ -20,7 +25,7 @@ app.use(helmet());
 //if you are on powershell
 console.log('application name: ' + config.get('name'));
 console.log('mail server: ' + config.get('mail.host'));
-console.log('mail password: ' + config.get('mail.password'));
+//console.log('mail password: ' + config.get('mail.password'));
 
 
 if(app.get('env') === 'development'){
@@ -41,8 +46,13 @@ const courses = [
 ];
 
 app.get('/',(req,res)=>{
-    res.send('hello world');    
+   // res.send('hello world');    
+    res.render('index', {
+        title: 'titlesss',
+        message: 'mes'
+    });
 });
+
 app.get('/api/courses',(req,res)=>{
     res.send(courses);    
 }); 

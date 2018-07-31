@@ -1,13 +1,19 @@
 console.log('Before');
-getUser(1,(user) => {
-    getRepositories(user.githubUsername, (repository) => {
-        console.log('repository', repository);
-        getCommits(repository,(commits)=>{
-
-        });
-    });
-});
+getUser(1, displayUser);
 console.log('After');
+
+
+function displayCommits(commits){
+    console.log(commits);
+}
+function displayRespositories(repository){
+         console.log('repository', repository);
+         getCommits(repository, displayCommits);
+}
+function displayUser(user){
+    getRepositories(user.githubUsername, displayRespositories);
+
+}
 
 // if you want to get the return value from
 //asynchrono methor you must use 
@@ -25,7 +31,7 @@ console.log('After');*/
 
 function getUser(id, callback) {
     setTimeout(() => {
-        console.log('database...');
+        console.log('getUser...');
         callback({
             id: id,
             githubUsername: 'jiawei'

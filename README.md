@@ -1,7 +1,7 @@
 # NodeJs
 
 
-this project contain some example to how implent a simply server with node.js, this proyect contain following framework >
+this project contain some example to how implent a simply server with node.js, this proyect contain following framework 
   
     express, Joi, Morgan, config, pug( templating engines also you can use mustache and EJS) 
     

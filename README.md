@@ -3,7 +3,8 @@
 
 this project contain some example to how implent a simply server with node.js, this proyect contain following framework 
   
-    express, Joi, Morgan, config, pug( templating engines also you can use mustache and EJS) 
+    express, Joi, Morgan, config, pug( templating engines also you can use mustache and EJS) ,authentication,
+    MongoDB.
     
 search the topic in commit history.
 

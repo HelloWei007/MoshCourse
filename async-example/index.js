@@ -1,5 +1,5 @@
 console.log('Before');
-getUser(1, displayUser);
+//getUser(1, displayUser);
 console.log('After');
 
 
@@ -11,8 +11,7 @@ function displayRespositories(repository){
          getCommits(repository, displayCommits);
 }
 function displayUser(user){
-    getRepositories(user.githubUsername, displayRespositories);
-
+    getRepositories(user.githubUsername);
 }
 
 // if you want to get the return value from
@@ -29,25 +28,45 @@ const repos = getRepositories(user.githubUsername);
 const commits = getCommits(repos[0]);
 console.log('After');*/
 
-function getUser(id, callback) {
-    setTimeout(() => {
-        console.log('getUser...');
-        callback({
-            id: id,
-            githubUsername: 'jiawei'
-        });
+/*const p = getUser(1);
+p.then( user =>console.log(user));*/
 
-    }, 2000)
+getUser(1)
+    .then(user => getRepositories(user.githubUsername)) //first promise 
+    .then(repository =>getCommits(repository[0]))
+    .then(commits => console.log('Commits',commits))   //secondPromise
+    .catch(err => console.log("error"));
+function getUser(id) {
+
+    return new Promise((resolve,reject)=>{
+          setTimeout(() => {
+              console.log('getUser...');
+              resolve({
+                  id: id,
+                  githubUsername: 'jiawei'
+              });
+          }, 2000);
+    });
 }
 
-function getRepositories(username, callback) {
-    setTimeout(() => {
-        callback(['repo1', 'repo2', 'repo3']);
-    }, 2000)
+function getRepositories(username) {
+
+    return new Promise((resolve,reject)=>{
+        setTimeout(() => {
+            console.log('getRepositories...');
+
+            resolve(['repo1', 'repo2', 'repo3']);
+        }, 2000);
+    });
+    
 }
 
-function getCommits(repository, callback) {
-    setTimeout(() => {
-        callback("commit");
-    }, 2000)
+function getCommits(repository) {
+
+    return new Promise((resolve, reject) => {
+         setTimeout(() => {
+             resolve("commit");
+         }, 2000);
+    });
+   
 }

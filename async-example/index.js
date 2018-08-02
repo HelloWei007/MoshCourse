@@ -31,11 +31,34 @@ console.log('After');*/
 /*const p = getUser(1);
 p.then( user =>console.log(user));*/
 
-getUser(1)
+/*getUser(1)
     .then(user => getRepositories(user.githubUsername)) //first promise 
     .then(repository =>getCommits(repository[0]))
     .then(commits => console.log('Commits',commits))   //secondPromise
     .catch(err => console.log("error"));
+*/
+
+    //Async and Await write a async code like sync code
+
+
+async function awaiyExample(){ /*use async to asynchro*/
+    /*try is like cath in promise */
+    try{
+        const user = await getUser(1); //like then in promise
+        const repos = await getRepositories(user.githubUsername);
+        const commit = await getCommits(repos[0]);
+        console.log(commit);
+    }catch(err){
+        console.err('error',err.message);
+    }    
+    
+}
+awaiyExample();
+
+
+
+
+
 function getUser(id) {
 
     return new Promise((resolve,reject)=>{
@@ -56,6 +79,7 @@ function getRepositories(username) {
             console.log('getRepositories...');
 
             resolve(['repo1', 'repo2', 'repo3']);
+         // reject("errrrr");
         }, 2000);
     });
     

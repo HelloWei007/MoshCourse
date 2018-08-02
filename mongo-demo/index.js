@@ -43,5 +43,39 @@ async function getCourses(){
     console.log(courses);
 }
 
+async function updateCourse(id){
+   /* const course = await Course.findById(id);
+    if(!course)return ;
+    course.isPublished = true;
+    course.author= 'new...';
+    const result = await course.save();
+    console.log(result);*/
+/************** */
+    //also you can update with update metho you have to reead the documentation
+  /* const result = await Course.update({_id:id},{
+       $set:{
+           author: 'hello',
+           isPublished: false
+       }
+   });
+   console.log(result);*/
+   /******************* */
+   
+   const result = await Course.findByIdAndUpdate(id, {
+       $set: {
+           author: 'jason',
+           isPublished: false
+       }
+   },{new: true});
+   console.log(result);
+}
 
-getCourses();
+async function removeCourse(id) {
+   const result = await Course.deleteOne({_id: id});
+   //const course = await Course.findByIdAndRemove(id);
+   console.log(result);
+}
+
+
+
+removeCourse('5b62eb479fc49b2460ff581d');

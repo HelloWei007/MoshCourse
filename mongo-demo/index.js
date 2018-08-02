@@ -7,7 +7,7 @@ mongoose.connect('mongodb://localhost/playground')
 
 
 const coursesSchema = new mongoose.Schema({
-    name: String,
+    name: {type: String, required: true},
     author: String,
     tag: [ String ],
     date: { type: Date, default: Date.now},
@@ -26,8 +26,14 @@ async function createCourse(){
         tag: ['angular', 'front'],
         isPublished: true
     });
-    const result = await course.save();
-    console.log(result);
+    try{
+       const result = await course.save();
+       console.log(result);
+        
+    }catch(err){
+        console.log(err.message);
+    }
+    
 }
 
 async function getCourses(){
@@ -78,4 +84,4 @@ async function removeCourse(id) {
 
 
 
-removeCourse('5b62eb479fc49b2460ff581d');
+createCourse();

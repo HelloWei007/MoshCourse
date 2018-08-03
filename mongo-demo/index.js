@@ -7,11 +7,39 @@ mongoose.connect('mongodb://localhost/playground')
 
 
 const coursesSchema = new mongoose.Schema({
-    name: {type: String, required: true},
+    name: {
+        type: String, 
+        required: true,
+        minlength: 5,
+        maxlength: 255,
+
+    },
+    category:{
+        type:String,
+        required:true,
+        enum:['web','mobile','network'],
+        lowercase:true,
+        
+    },
     author: String,
-    tag: [ String ],
+    tag:{
+        type:Array,
+        validate:{
+            validator:function(v){
+                return v && v.length > 0;
+            },
+            message: 'A course show...'
+        }
+    },
     date: { type: Date, default: Date.now},
-    isPublished: Boolean
+    isPublished: Boolean,
+    price: {
+        type: Number,
+        required: function() { return this.isPublished;},
+        min: 10,
+        max:200,
+
+    }
 });
 
 const Course = mongoose.model('Course',coursesSchema);
@@ -23,13 +51,14 @@ async function createCourse(){
     const course = new Course({
         name: 'angular',
         author: 'Alice',
-        tag: ['angular', 'front'],
-        isPublished: true
+        category: 'web',
+        //tag: [],
+        isPublished: true,
+        price: 15
     });
     try{
        const result = await course.save();
        console.log(result);
-        
     }catch(err){
         console.log(err.message);
     }
@@ -84,4 +113,4 @@ async function removeCourse(id) {
 
 
 
-createCourse();
+//createCourse();

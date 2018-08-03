@@ -7,6 +7,12 @@ const morgan = require('morgan');
 const config = require('config');
 const router_courses = require('./routes/courses');
 const router_home = require('./routes/home');
+
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost/courses')
+    .then(()=>console.log('conecting mongoose db'))
+    .catch((err) => console.log(err))
 /**************really usefull, have to use envionrment variables*/
 //const startupDebugger = require('debug')('app:startup');
 //const dbDebugger = require('debug')('app:db');
